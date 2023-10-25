@@ -10,6 +10,16 @@ videogamesRouter.get('/' , (req, res)=> {
     }
 })
 
+videogamesRouter.get('/name', (req, res)=>{
+    try {
+        const { name } = req.query;
+
+        return res.status(200).json({message:name});
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+})
+
 videogamesRouter.get('/:idVideogame', (req, res)=>{
     try {
         return res.status(200).json({message: 'id videogame correct'})
@@ -18,11 +28,12 @@ videogamesRouter.get('/:idVideogame', (req, res)=>{
     }
 })
 
-videogamesRouter.get('/name', (req, res)=>{
+videogamesRouter.post('/', (req, res)=>{
     try {
-        const { name } = req.query;
+        const { name, description, platforms, image, releaseDate, rating } = req.body;
+        // const newVideogame = 
 
-        return res.status(200).json({message:name});
+        return res.status(200).json(req.body)
     } catch (error) {
         return res.status(500).send(error.message);
     }
