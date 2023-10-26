@@ -1,39 +1,58 @@
 const { Router } = require('express');
+const { Videogame } = require('../db');
 
 const videogamesRouter = Router();
 
-videogamesRouter.get('/' , (req, res)=> {
+videogamesRouter.get('/' , async (req, res)=> {
     try {
-        return res.status(200).json({message: "all correct"})
+        const allVideogames= await Videogame.findAll();
+
+        return res.status(200).json(allVideogames);
     } catch (error) {
         return res.status(500).send(error.message);
     }
 })
 
-videogamesRouter.get('/name', (req, res)=>{
+videogamesRouter.get('/name', async (req, res)=>{
     try {
         const { name } = req.query;
 
-        return res.status(200).json({message:name});
+        const dbResults = await Videogame.findAll({
+            where: {
+                name: {
+                    [Op.iLike]: `%${name}%`
+                }
+            }
+        })
+
+        return res.status(200).json(dbResults);
     } catch (error) {
         return res.status(500).send(error.message);
     }
 })
 
-videogamesRouter.get('/:idVideogame', (req, res)=>{
+videogamesRouter.get('/:idVideogame', async (req, res)=>{
     try {
-        return res.status(200).json({message: 'id videogame correct'})
+        const { idVideogame } = req.params;
+        const soughtVideogame = await Videogame.findOne({where: { idDB: idVideogame }});
+
+        if(!soughtVideogame){
+            return res.status(404).send('Videogame not founded');
+        }
+
+        return res.status(200).json(soughtVideogame)
     } catch (error) {
         return res.status(500).send(error.message)
     }
 })
 
-videogamesRouter.post('/', (req, res)=>{
+videogamesRouter.post('/', async (req, res)=>{
     try {
         const { name, description, platforms, image, releaseDate, rating } = req.body;
-        // const newVideogame = 
+        const newVideogame = await Videogame.create(req.body);
 
-        return res.status(200).json(req.body)
+
+        return res.status(200).json(newVideogame)
     } catch (error) {
         return res.status(500).send(error.message);
     }
