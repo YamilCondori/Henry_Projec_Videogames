@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE
     },
     rating: {
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     }
   });
 };
