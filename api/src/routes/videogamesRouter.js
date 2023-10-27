@@ -17,7 +17,7 @@ videogamesRouter.get('/' , async (req, res)=> {
         if(videogamesFromDB.length<20){
             const videogamesFromApi = (await axios(url)).data;
             const allVideogames = videogamesFromDB.concat(videogamesFromApi.results);
-            console.log(allVideogames);
+
             return res.status(200).json(allVideogames.slice(0 , 20))
         }
 
@@ -30,6 +30,8 @@ videogamesRouter.get('/' , async (req, res)=> {
 videogamesRouter.get('/name', async (req, res)=>{
     try {
         const { name } = req.query;
+        const urlN= `https://api.rawg.io/api/games?search=${name}&?key=${API_KEY}`
+        let allVideogames = [];
 
         const dbResults = await Videogame.findAll({
             where: {
@@ -38,6 +40,12 @@ videogamesRouter.get('/name', async (req, res)=>{
                 }
             }
         })
+
+        if(dbResults.length<15){
+            const apiResponse = (await axios(urlN)).data;
+            console.log(apiResponse);
+            // allVideogames = dbResults.concat(apiResponse.)
+        }
 
         return res.status(200).json(dbResults);
     } catch (error) {
@@ -54,13 +62,17 @@ videogamesRouter.get('/:idVideogame', async (req, res)=>{
 
         if(!videogameFromDB){
             let responseAPI = (await axios(url)).data;
+
             let count = 0
+
             while(responseAPI){
                 const finded = responseAPI.results.find(videogame=> videogame.id === +idVideogame);
 
                 if(finded) return res.status(200).json(finded);
+
                 count++;
                 if(count === 20) return res.status(404).send('not founded')
+
                 responseAPI = (await axios(responseAPI.next)).data;
             }
         }
