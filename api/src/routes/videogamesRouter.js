@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Router } = require('express');
+const { Router, response } = require('express');
 const { Videogame, Gender } = require('../db');
 const { Op } = require('sequelize');
 const axios = require('axios');
@@ -14,6 +14,7 @@ videogamesRouter.get('/' , async (req, res)=> {
         const videogamesFromDB= await Videogame.findAll({
             limit: 20
         });
+
         if(videogamesFromDB.length<20){
             const videogamesFromApi = (await axios(url)).data;
             const allVideogames = videogamesFromDB.concat(videogamesFromApi.results);
@@ -30,7 +31,7 @@ videogamesRouter.get('/' , async (req, res)=> {
 videogamesRouter.get('/name', async (req, res)=>{
     try {
         const { name } = req.query;
-        const urlN= `https://api.rawg.io/api/games?search=${name}&?key=${API_KEY}`
+        const urlN= `https://api.rawg.io/api/games?key=${API_KEY}&search=${name}`
         let allVideogames = [];
 
         const dbResults = await Videogame.findAll({
@@ -43,8 +44,9 @@ videogamesRouter.get('/name', async (req, res)=>{
 
         if(dbResults.length<15){
             const apiResponse = (await axios(urlN)).data;
-            console.log(apiResponse);
-            // allVideogames = dbResults.concat(apiResponse.)
+            allVideogames = dbResults.concat(apiResponse.results)
+            if(allVideogames.length <= 0) return res.status(404).send({message: 'Videogame not exists'})
+            return res.status(200).json(allVideogames.slice(0 , 15));
         }
 
         return res.status(200).json(dbResults);
@@ -59,22 +61,13 @@ videogamesRouter.get('/:idVideogame', async (req, res)=>{
         const videogameFromDB = await Videogame.findByPk(idVideogame, {
             include: Gender
         })
-
+        
         if(!videogameFromDB){
-            let responseAPI = (await axios(url)).data;
+            const urlId = `https://api.rawg.io/api/games/${idVideogame}?key=${API_KEY}`
+            let responseAPI = (await axios(urlId)).data;
+            //axios arroja un error status=404 por defecto si el videojuego no existe.
 
-            let count = 0
-
-            while(responseAPI){
-                const finded = responseAPI.results.find(videogame=> videogame.id === +idVideogame);
-
-                if(finded) return res.status(200).json(finded);
-
-                count++;
-                if(count === 20) return res.status(404).send('not founded')
-
-                responseAPI = (await axios(responseAPI.next)).data;
-            }
+            return res.status(200).json(responseAPI)
         }
 
         return res.status(200).json(videogameFromDB)
