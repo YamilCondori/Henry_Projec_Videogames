@@ -1,0 +1,33 @@
+
+.back {
+    /* Establece la imagen de fondo con la URL proporcionada */
+    background-image: url('../../../public/photocall-juegos-neon-dibujado-mano_23-2149860761.avif');
+    background-size: 100% 100%;
+    height: 100vh;
+    background-repeat: no-repeat;
+
+    /* Estilo de los componentes */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    color: rgba(223, 201, 102, 0.928);
+    letter-spacing: 2px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-shadow: 2px 2px 2px #000000, -2px -2px 2px #000000;
+}
+
+.button {
+    background-color: #12064e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration:none;
+    font-family: fantasy;
+    letter-spacing: 1px;
+}
