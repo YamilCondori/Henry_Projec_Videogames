@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import LandingPage from "./Components/LandinPage/LandingPage";
+import LandingPage from "./Components/LandingPage/LandingPage";
 import HomePage from "./Components/HomePage/HomePage";
 import DetailPage from "./Components/DetailPage/DetailPage";
 import FormPage from "./Components/FormPage/FormPage";

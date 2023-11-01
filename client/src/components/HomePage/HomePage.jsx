@@ -1,3 +1,4 @@
+import VideogamesCards from "../Cards/videogamesCards"
 import SearchBar from "../SearchBar/SearchBar"
 
 const HomePage =()=>{
@@ -5,6 +6,7 @@ const HomePage =()=>{
         <div>
             <SearchBar/>
             Home
+            <VideogamesCards/>
         </div>
     )
 }

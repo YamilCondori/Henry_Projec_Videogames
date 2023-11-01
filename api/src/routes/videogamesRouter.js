@@ -12,14 +12,19 @@ const url = `https://api.rawg.io/api/games?key=${API_KEY}`
 videogamesRouter.get('/' , async (req, res)=> {
     try {
         const videogamesFromDB= await Videogame.findAll({
-            limit: 20
+            limit: 100
         });
 
-        if(videogamesFromDB.length<20){
-            const videogamesFromApi = (await axios(url)).data;
-            const allVideogames = videogamesFromDB.concat(videogamesFromApi.results);
+        if(videogamesFromDB.length<100){
+            let videogamesFromApi = (await axios(url)).data;
+            let allVideogames = videogamesFromDB.concat(videogamesFromApi.results);
+            while(allVideogames.length<100){
+                videogamesFromApi = (await axios(videogamesFromApi.next)).data;
+                allVideogames = allVideogames.concat(videogamesFromApi.results)
+            }
 
-            return res.status(200).json(allVideogames.slice(0 , 20))
+            console.log(allVideogames.length);
+            return res.status(200).json(allVideogames)
         }
 
         return res.status(200).json(videogamesFromDB);

@@ -1,0 +1,6 @@
+export const SEARCHBYNAME = 'SEARCHBYNAME'
+export const GETVIDEOGAMES= 'GETVIDEOGAMES'
+export const GETGENRE = 'GETGENRE'
+export const FILTER = 'FILTER'
+export const ORDER= 'ORDER'
+export const POSTVIDEOGAME= 'POSTVIDEOGAME'
