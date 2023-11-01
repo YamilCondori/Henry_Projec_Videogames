@@ -9,7 +9,7 @@ const LandingPage=()=>{
     }
     
     return(
-        <div /*className={styles['div-con-fondo']}*/ className={styles.back} >
+        <div className={styles.back} >
             <h1 className={styles.title} >VIDEOGAMES</h1>
             <div>
                 <button className={styles.button} onClick={handleClick} >
