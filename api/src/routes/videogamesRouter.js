@@ -1,6 +1,6 @@
 require('dotenv').config();
-const { Router, response } = require('express');
-const { Videogame, Gender } = require('../db');
+const { Router } = require('express');
+const { Videogame, Genre } = require('../db');
 const { Op } = require('sequelize');
 const axios = require('axios');
 
@@ -12,20 +12,22 @@ const url = `https://api.rawg.io/api/games?key=${API_KEY}`
 videogamesRouter.get('/' , async (req, res)=> {
     try {
         const videogamesFromDB= await Videogame.findAll({
-            limit: 100
+            limit: 100,
+            include: Genre
         });
+        console.log(videogamesFromDB);
 
-        if(videogamesFromDB.length<100){
-            let videogamesFromApi = (await axios(url)).data;
-            let allVideogames = videogamesFromDB.concat(videogamesFromApi.results);
-            while(allVideogames.length<100){
-                videogamesFromApi = (await axios(videogamesFromApi.next)).data;
-                allVideogames = allVideogames.concat(videogamesFromApi.results)
-            }
+        // if(videogamesFromDB.length<100){
+        //     let videogamesFromApi = (await axios(url)).data;
+        //     let allVideogames = videogamesFromDB.concat(videogamesFromApi.results);
+        //     while(allVideogames.length<100){
+        //         videogamesFromApi = (await axios(videogamesFromApi.next)).data;
+        //         allVideogames = allVideogames.concat(videogamesFromApi.results)
+        //     }
 
-            console.log(allVideogames.length);
-            return res.status(200).json(allVideogames)
-        }
+        //     console.log(allVideogames.length);
+        //     return res.status(200).json(allVideogames)
+        // }
 
         return res.status(200).json(videogamesFromDB);
     } catch (error) {
@@ -64,7 +66,7 @@ videogamesRouter.get('/:idVideogame', async (req, res)=>{
     try {
         const { idVideogame } = req.params;
         const videogameFromDB = await Videogame.findByPk(idVideogame, {
-            include: Gender
+            include: Genre
         })
         
         if(!videogameFromDB){
@@ -83,14 +85,17 @@ videogamesRouter.get('/:idVideogame', async (req, res)=>{
 
 videogamesRouter.post('/', async (req, res)=>{
     try {
-        const { name, description, platforms, image, releaseDate, rating, gender } = req.body;
+        const { name, description, platforms, image, releaseDate, rating, genre } = req.body;
         const newVideogame = await Videogame.create(req.body);
 
-        if(gender){
-            const selectedGender = await Gender.findByPk(gender);
-            if(selectedGender){
-                await newVideogame.addGender(selectedGender)
-            }
+        if(genre.length>0){
+            genre.map(async (idGenre)=>{
+                const selectedGenre = await Genre.findByPk(idGenre);
+
+                if(selectedGenre){
+                    await newVideogame.addGenre(selectedGenre)
+                }
+            })
         }
 
         return res.status(200).json(newVideogame)

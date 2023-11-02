@@ -1,5 +1,6 @@
-.cards{
+.cardsContainer{
     display: flex;
     justify-items: center;
     flex-wrap: wrap;
+    background-color: red;
 }

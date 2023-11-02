@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     platforms: {
-      type: DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING),
     },
     image: {
       type: DataTypes.BLOB
@@ -28,7 +28,9 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE
     },
     rating: {
-      type: DataTypes.INTEGER
+      type: DataTypes.ARRAY(DataTypes.DECIMAL)
     }
+  },{
+    timestamps: false
   });
 };

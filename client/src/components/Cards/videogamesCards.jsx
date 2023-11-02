@@ -30,7 +30,7 @@ const VideogamesCards=()=>{
 
 
     return(
-        <div className={styles.cards} >
+        <div className={styles.cardsContainer} >
             <button onClick={previousPage} disabled={currentPage===1}>Previous</button>
             { currentVideogame?.map(videogame => {
                 return <Card  key={videogame.id} props={videogame} />
