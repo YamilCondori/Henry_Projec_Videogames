@@ -15,19 +15,19 @@ const reducer=(state=initialState , { type, payload })=>{
         case GETVIDEOGAMES: return {...state, cards: payload, aux: payload}
         case GETGENRE: return {...state, genres: payload}
         case FILTER: {
-            if(payload==='todos'){
-                return {...state, cards:[...state.aux], filters:[] }
+            if(payload===''){
+                return {...state, cards: state.aux}
             }
             if(payload==='API'){
-                state.cards= state.aux.filter(pokemon=> typeof pokemon.id=== 'number')
-                return {...state,  filters:[...state.filters, payload]}
-            }
-            if(payload==='DataBase'){
-                state.cards=state.aux.filter(pokemon=> typeof pokemon.id === 'string');
-                return {...state, filters:[...state.filters, payload]}
-            }
-            state.cards= state.aux.filter(pokemon=> pokemon?.genre.some(infoType=>infoType.type.name===payload))
-            return {...state, filters:[...state.filters, payload]}
+                const fromApi = state.aux.filter(videogame=> typeof +videogame.id=== 'number')
+                return {...state, cards: fromApi}
+                }
+            if(payload==='DB'){
+                const fromDB = state.aux.filter(videogame=> typeof +videogame.id === 'string');
+                return {...state, cards: fromDB}
+                }
+            const filtereds = state.aux.filter(videogame=> videogame.genres.some((genre)=>genre.name === payload))
+            return {...state, cards: filtereds }
         }
         case ORDER: {
             let updatedCards= [...state.cards];

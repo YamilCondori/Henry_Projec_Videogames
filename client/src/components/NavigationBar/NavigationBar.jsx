@@ -1,20 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { filterByGenre, filterByOrigin, sortAlphabetically, sortByRating } from '../Redux/actions';
 import styles from './NavigationBar.module.css'
-import { useEffect } from 'react';
-import { getGenres } from '../../Redux/actions';
+import { filter} from '../../Redux/actions';
 
 const NavigationBar = () => {
   const dispatch = useDispatch();
   const genres = useSelector(state => state.genres);
 
-    useEffect(()=>{
-    dispatch(getGenres());
-    },[])
-
-  const handleGenreFilter = genre => {
-    // dispatch(filterByGenre(genre));
+  const handleGenreFilter = optionFilter => {
+    dispatch(filter(optionFilter));
   };
 
   const handleOriginFilter = origin => {
@@ -44,7 +38,7 @@ const NavigationBar = () => {
       </div>
       <div>
         <span>Filter by Origin:</span>
-        <select onChange={(event)=>handleOriginFilter(event.target.value)}>
+        <select onChange={(event)=>handleGenreFilter(event.target.value)}>
             <option value="">All</option>
             <option value="API">API</option>
             <option value="DB">DataBase</option>

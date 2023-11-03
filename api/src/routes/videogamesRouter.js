@@ -84,11 +84,11 @@ videogamesRouter.get('/:idVideogame', async (req, res)=>{
 
 videogamesRouter.post('/', async (req, res)=>{
     try {
-        const { name, description, platforms, image, releaseDate, rating, genre } = req.body;
+        const { name, description, platforms, image, releaseDate, rating, genres } = req.body;
         const newVideogame = await Videogame.create(req.body);
 
-        if(genre.length>0){
-            genre.map(async (idGenre)=>{
+        if(genres.length>0){
+            genres.map(async (idGenre)=>{
                 const selectedGenre = await Genre.findByPk(idGenre);
 
                 if(selectedGenre){

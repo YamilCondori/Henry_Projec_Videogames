@@ -1,20 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
 import Card from "./cardStructure";
-import { useEffect, useState } from "react";
-import { getVideogames } from "../../Redux/actions";
+import { useState } from "react";
 import styles from './VideogamesCards.module.css'
 import { Link } from "react-router-dom"
 
 
 const VideogamesCards=()=>{
     const cards = useSelector(state=> state.cards);
-    const dispatch = useDispatch()
     const [currentPage , setCurrentPage] = useState(1);
     const [videogamesPerPage] = useState(12);
-
-    useEffect(()=>{
-        dispatch(getVideogames())
-    }, [])
 
     //Calculo del primer y último pokemon de la pagina
     const indexOfLastVideogame= currentPage* videogamesPerPage;
@@ -26,16 +20,14 @@ const VideogamesCards=()=>{
     }
     const nextPage=()=>{
         setCurrentPage(prevPage=>prevPage+1);
-    }
-
-
+    }   
     return(
         <div className={styles.cardsContainer} >
             <button onClick={previousPage} disabled={currentPage===1}>Previous</button>
             { currentVideogame?.map(videogame => {
                 return (
-                    <Link to={`/videogame/${videogame.id}`} key={videogame.id}>
-                        <Card  key={videogame.id} props={videogame} />
+                    <Link to={`/videogame/${videogame.id}`} key={videogame.id+"-Link"}>
+                        <Card  key={videogame.id+"-card"} props={videogame} />
                     </Link>
                 )
             })}
