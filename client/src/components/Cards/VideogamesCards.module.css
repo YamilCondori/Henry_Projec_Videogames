@@ -4,3 +4,7 @@
     flex-wrap: wrap;
     background-color: red;
 }
+
+.buttons{
+    justify-content: space-around;
+}

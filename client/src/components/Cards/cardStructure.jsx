@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom"
-
+import styles from './card.module.css'
 
 const Card=({props})=>{
     const { id, image , name, genres } = props
 
 
     return(
-        <Link to={`/videogame/${id}`} key={id}>
-            <div key={id}>
-                <h3>{name}</h3>
+            <div key={id} className={styles.cardBox}>
+                <h3 className={styles.title}>{name}</h3>
                 {genres?.map(elm=> {
                     return <li key={elm.name}>
                         {elm.name}
@@ -16,7 +14,6 @@ const Card=({props})=>{
                     })}
                 <img src={image} alt="" />
             </div>        
-        </Link>
     )
 
 }

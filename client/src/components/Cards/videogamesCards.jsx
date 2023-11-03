@@ -3,7 +3,7 @@ import Card from "./cardStructure";
 import { useEffect, useState } from "react";
 import { getVideogames } from "../../Redux/actions";
 import styles from './VideogamesCards.module.css'
-
+import { Link } from "react-router-dom"
 
 
 const VideogamesCards=()=>{
@@ -33,7 +33,11 @@ const VideogamesCards=()=>{
         <div className={styles.cardsContainer} >
             <button onClick={previousPage} disabled={currentPage===1}>Previous</button>
             { currentVideogame?.map(videogame => {
-                return <Card  key={videogame.id} props={videogame} />
+                return (
+                    <Link to={`/videogame/${videogame.id}`} key={videogame.id}>
+                        <Card  key={videogame.id} props={videogame} />
+                    </Link>
+                )
             })}
             <button onClick={nextPage} disabled={indexOfLastVideogame>=cards.length}>Next</button>
         </div>

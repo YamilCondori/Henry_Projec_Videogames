@@ -38,7 +38,7 @@ export const getVideogames=()=>{
 }
 
 export const getGenres=()=>{
-    const endpoint='http://localhost:3001/genres'
+    const endpoint='http://localhost:3001/genders'
     return async (dispatch)=>{
         try {
             const { data } = await axios.get(endpoint);

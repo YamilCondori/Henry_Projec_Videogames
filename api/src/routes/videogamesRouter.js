@@ -15,7 +15,6 @@ videogamesRouter.get('/' , async (req, res)=> {
             limit: 100,
             include: Genre
         });
-        console.log(videogamesFromDB);
 
         // if(videogamesFromDB.length<100){
         //     let videogamesFromApi = (await axios(url)).data;

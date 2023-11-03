@@ -3,7 +3,7 @@ import { SEARCHBYNAME, GETVIDEOGAMES, GETGENRE, FILTER, ORDER, POSTVIDEOGAME } f
 const initialState={
     cards:[],
     filters:[],
-    types:[],
+    genres:[],
     aux:[]
 }
 
@@ -13,7 +13,7 @@ const reducer=(state=initialState , { type, payload })=>{
             return { ...state, cards: [...state.cards, payload], aux:[...state.aux, payload]}
         }
         case GETVIDEOGAMES: return {...state, cards: payload, aux: payload}
-        case GETGENRE: return {...state, types: payload}
+        case GETGENRE: return {...state, genres: payload}
         case FILTER: {
             if(payload==='todos'){
                 return {...state, cards:[...state.aux], filters:[] }
@@ -26,7 +26,7 @@ const reducer=(state=initialState , { type, payload })=>{
                 state.cards=state.aux.filter(pokemon=> typeof pokemon.id === 'string');
                 return {...state, filters:[...state.filters, payload]}
             }
-            state.cards= state.aux.filter(pokemon=> pokemon?.types.some(infoType=>infoType.type.name===payload))
+            state.cards= state.aux.filter(pokemon=> pokemon?.genre.some(infoType=>infoType.type.name===payload))
             return {...state, filters:[...state.filters, payload]}
         }
         case ORDER: {
