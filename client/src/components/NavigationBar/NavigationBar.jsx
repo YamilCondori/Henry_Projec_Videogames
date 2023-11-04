@@ -1,27 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './NavigationBar.module.css'
-import { filter} from '../../Redux/actions';
+import { filter, orderBy} from '../../Redux/actions';
 
 const NavigationBar = () => {
   const dispatch = useDispatch();
   const genres = useSelector(state => state.genres);
+  const [toggleButtonAlpha, setButtonAlpha] = useState({
+    AtoZ: false,
+    ZtoA: false,
+  })
 
-  const handleGenreFilter = optionFilter => {
+  const handleFilter = optionFilter => {
     dispatch(filter(optionFilter));
   };
 
-  const handleOriginFilter = origin => {
-    // dispatch(filterByOrigin(origin));
-  };
-
   const handleAlphabeticalSort = () => {
-    // dispatch(sortAlphabetically());
+    setButtonAlpha((prevState)=>{
+      if(!prevState.AtoZ){
+        return {...prevState, AtoZ: true }
+      } else if(!prevState.ZtoA){
+        return {...prevState, ZtoA: true}
+      } else {
+        return {AtoZ: false , ZtoA: false }
+      }
+    })
   };
 
   const handleRatingSort = () => {
     // dispatch(sortByRating());
   };
+
+  useEffect(()=>{
+    dispatch(orderBy(toggleButtonAlpha))
+  },[toggleButtonAlpha])
 
   return (
     <div className={styles.container} >
@@ -29,7 +41,7 @@ const NavigationBar = () => {
       <button onClick={handleRatingSort}>Sort by Rating</button>
       <div>
         <span>Filter by Genre:</span>
-        <select onChange={(event)=>handleGenreFilter(event.target.value)}>
+        <select onChange={(event)=>handleFilter(event.target.value)}>
             <option value="">All Videogames</option>
             {genres.map(genre => (
                 <option value={genre.name} key={genre.name}>{genre.name}</option>
@@ -38,7 +50,7 @@ const NavigationBar = () => {
       </div>
       <div>
         <span>Filter by Origin:</span>
-        <select onChange={(event)=>handleGenreFilter(event.target.value)}>
+        <select onChange={(event)=>handleFilter(event.target.value)}>
             <option value="">All</option>
             <option value="API">API</option>
             <option value="DB">DataBase</option>

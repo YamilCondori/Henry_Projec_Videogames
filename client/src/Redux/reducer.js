@@ -2,9 +2,9 @@ import { SEARCHBYNAME, GETVIDEOGAMES, GETGENRE, FILTER, ORDER, POSTVIDEOGAME } f
 
 const initialState={
     cards:[],
-    filters:[],
     genres:[],
-    aux:[]
+    aux:[],
+    sortOrder: {}
 }
 
 const reducer=(state=initialState , { type, payload })=>{
@@ -30,27 +30,16 @@ const reducer=(state=initialState , { type, payload })=>{
             return {...state, cards: filtereds }
         }
         case ORDER: {
-            let updatedCards= [...state.cards];
-            if(payload.typeOrder===''){
-                updatedCards= [...state.aux]
+            console.log(payload);
+            let sorted=[];
+            if(payload.AtoZ && !payload.ZtoA){
+                sorted = state.cards.sort((a,b)=> a.name.localeCompare(b.name));
+            } else if(payload.AtoZ && payload.ZtoA){
+                sorted = state.cards.sort((a,b)=> b.name.localeCompare(a.name));
+            } else{
+                sorted = state.aux
             }
-            if(payload.typeOrder==='alphabet'){
-                if(payload.order===true){
-                    updatedCards=updatedCards?.sort((a,b)=> a.name.localeCompare(b.name)   )
-                }
-                if(payload.order===false){
-                    updatedCards=updatedCards?.sort((a,b)=>b.name.localeCompare(a.name));
-                }
-            }
-            if(payload.typeOrder==='attack'){
-                if(payload.order===true){
-                    updatedCards=updatedCards?.sort((a,b)=> b.attack - a.attack );
-                }
-                if(payload.order===false){
-                    updatedCards=updatedCards?.sort((a,b)=>a.attack-b.attack);
-                }
-            }
-            return {...state , cards:updatedCards}
+            return {...state , sortOrder:payload, cards: sorted}
         }
         case POSTVIDEOGAME: return {...state, cards:[...state.cards , payload]}
         default: return {...state};

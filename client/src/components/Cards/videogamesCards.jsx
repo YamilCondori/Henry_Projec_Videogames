@@ -30,7 +30,7 @@ const VideogamesCards=()=>{
                         <Card  key={videogame.id+"-card"} props={videogame} />
                     </Link>
                 )
-            })}
+            })}{console.log(cards)}{console.log(currentPage)}
             <button onClick={nextPage} disabled={indexOfLastVideogame>=cards.length}>Next</button>
         </div>
     )
