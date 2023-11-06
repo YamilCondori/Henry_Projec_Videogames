@@ -66,7 +66,7 @@ export const filter=(genre)=>{
 }
 
 export const orderBy=(instructions)=>{
-    return (dispatch)=>{
+    return async (dispatch)=>{
         try {
             return dispatch({
                 type: ORDER,

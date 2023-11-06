@@ -33,9 +33,9 @@ const reducer=(state=initialState , { type, payload })=>{
             console.log(payload);
             let sorted=[];
             if(payload.AtoZ && !payload.ZtoA){
-                sorted = state.cards.sort((a,b)=> a.name.localeCompare(b.name));
+                sorted = [...state.cards].sort((a,b)=> a.name.localeCompare(b.name));
             } else if(payload.AtoZ && payload.ZtoA){
-                sorted = state.cards.sort((a,b)=> b.name.localeCompare(a.name));
+                sorted = [...state.cards].sort((a,b)=> b.name.localeCompare(a.name));
             } else{
                 sorted = state.aux
             }

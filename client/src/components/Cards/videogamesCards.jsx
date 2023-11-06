@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import Card from "./cardStructure";
 import { useState } from "react";
 import styles from './VideogamesCards.module.css'
@@ -20,7 +20,7 @@ const VideogamesCards=()=>{
     }
     const nextPage=()=>{
         setCurrentPage(prevPage=>prevPage+1);
-    }   
+    } 
     return(
         <div className={styles.cardsContainer} >
             <button onClick={previousPage} disabled={currentPage===1}>Previous</button>
@@ -30,7 +30,7 @@ const VideogamesCards=()=>{
                         <Card  key={videogame.id+"-card"} props={videogame} />
                     </Link>
                 )
-            })}{console.log(cards)}{console.log(currentPage)}
+            })}
             <button onClick={nextPage} disabled={indexOfLastVideogame>=cards.length}>Next</button>
         </div>
     )
