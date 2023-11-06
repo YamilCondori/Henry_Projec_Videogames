@@ -6,25 +6,39 @@ import { filter, orderBy} from '../../Redux/actions';
 const NavigationBar = () => {
   const dispatch = useDispatch();
   const genres = useSelector(state => state.genres);
-  const [toggleButtonAlpha, setButtonAlpha] = useState({
+  const [toggleOrder, setOrder] = useState({
     AtoZ: false,
     ZtoA: false,
+    ratingAsc: false,
+    ratingDesc:false
   })
 
   const handleFilter = optionFilter => {
     dispatch(filter(optionFilter));
   };
 
-  const handleAlphabeticalSort = () => {
-    setButtonAlpha((prevState)=>{
-      if(!prevState.AtoZ){
-        return {...prevState, AtoZ: true }
-      } else if(!prevState.ZtoA){
-        return {...prevState, ZtoA: true}
-      } else {
-        return {AtoZ: false , ZtoA: false }
-      }
-    })
+  const handeSort = (event) => {
+    if(event.target.name==='alphabetic'){
+      setOrder((prevState)=>{
+        if(!prevState.AtoZ){
+          return {...prevState, AtoZ: true, ratingAsc:false , ratingDesc:false}
+        } else if(!prevState.ZtoA){
+          return {...prevState, ZtoA: true}
+        } else {
+          return {AtoZ: false , ZtoA: false, ratingAsc: false , ratingDesc: false  }
+        }
+      })
+    } else if (event.target.name==='rating'){
+      setOrder((prevState)=>{
+        if(!prevState.ratingAsc){
+          return {...prevState, ratingAsc: true, AtoZ:false, ZtoA:false }
+        } else if(!prevState.ratingDesc){
+          return {...prevState, ratingDesc: true}
+        } else {
+          return {AtoZ: false , ZtoA: false,ratingAsc: false , ratingDesc: false }
+        }
+      })
+    }
   };
 
   const handleRatingSort = () => {
@@ -32,13 +46,13 @@ const NavigationBar = () => {
   };
 
   useEffect(()=>{
-    dispatch(orderBy(toggleButtonAlpha))
-  },[toggleButtonAlpha])
+    dispatch(orderBy(toggleOrder))
+  },[toggleOrder])
 
   return (
     <div className={styles.container} >
-      <button onClick={handleAlphabeticalSort}>Sort A-Z</button>
-      <button onClick={handleRatingSort}>Sort by Rating</button>
+      <button name='alphabetic' onClick={handeSort}>Sort A-Z</button>
+      <button name='rating' onClick={handeSort}>Sort by Rating</button>
       <div>
         <span>Filter by Genre:</span>
         <select onChange={(event)=>handleFilter(event.target.value)}>

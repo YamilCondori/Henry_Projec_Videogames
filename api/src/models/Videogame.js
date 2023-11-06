@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE
     },
     rating: {
-      type: DataTypes.ARRAY(DataTypes.DECIMAL)
+      type: DataTypes.DECIMAL(10,2)
     }
   },{
     timestamps: false

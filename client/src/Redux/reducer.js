@@ -30,15 +30,23 @@ const reducer=(state=initialState , { type, payload })=>{
             return {...state, cards: filtereds }
         }
         case ORDER: {
-            console.log(payload);
             let sorted=[];
             if(payload.AtoZ && !payload.ZtoA){
                 sorted = [...state.cards].sort((a,b)=> a.name.localeCompare(b.name));
             } else if(payload.AtoZ && payload.ZtoA){
                 sorted = [...state.cards].sort((a,b)=> b.name.localeCompare(a.name));
-            } else{
+            }
+
+            if(payload.ratingAsc && !payload.ratingDesc){
+                sorted = [...state.cards].sort((a,b)=> b.rating - a.rating);
+            } else if(payload.ratingAsc && payload.ratingDesc){
+                sorted = [...state.cards].sort((a,b)=> a.rating - b.rating);
+            }
+
+            if(!Object.values(payload).some(value=>value===true)){
                 sorted = state.aux
             }
+
             return {...state , sortOrder:payload, cards: sorted}
         }
         case POSTVIDEOGAME: return {...state, cards:[...state.cards , payload]}

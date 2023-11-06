@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage/>} />
         <Route path="/home" element={<HomePage/>}/>
-        <Route path="/detailPage" element={<DetailPage/>}/>
+        <Route path="/detailPage/:cardId" element={<DetailPage/>}/>
         <Route path="/formPage" element={<FormPage/>}/>
       </Routes>
     </div>

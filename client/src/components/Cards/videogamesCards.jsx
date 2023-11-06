@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
 const VideogamesCards=()=>{
     const cards = useSelector(state=> state.cards);
     const [currentPage , setCurrentPage] = useState(1);
-    const [videogamesPerPage] = useState(12);
+    const [videogamesPerPage] = useState(15);
 
     //Calculo del primer y último pokemon de la pagina
     const indexOfLastVideogame= currentPage* videogamesPerPage;
@@ -26,8 +26,8 @@ const VideogamesCards=()=>{
             <button onClick={previousPage} disabled={currentPage===1}>Previous</button>
             { currentVideogame?.map(videogame => {
                 return (
-                    <Link to={`/videogame/${videogame.id}`} key={videogame.id+"-Link"}>
-                        <Card  key={videogame.id+"-card"} props={videogame} />
+                    <Link to={`/detailPage/${videogame.id}`} key={videogame.id+"-Link"}>
+                        <Card  key={videogame.id+"-card"} props={videogame} showAll={false} />
                     </Link>
                 )
             })}

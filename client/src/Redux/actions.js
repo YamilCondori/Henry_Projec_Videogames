@@ -94,3 +94,7 @@ export const postVideogame= (videogame)=>{
         }
     }
 }
+
+export const searchById = (id)=>{
+
+}

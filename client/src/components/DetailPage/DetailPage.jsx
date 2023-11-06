@@ -1,9 +1,13 @@
-
+import Card from "../Cards/cardStructure"
+import { useDispatch } from "react-redux"
 
 const DetailPage = () =>{
+    const dispatch = useDispatch();
+    
+
     return (
         <div>
-            Detailpage
+           {/* <Card props={} showAll={true} ></Card>  */}
         </div>
     )
 }
